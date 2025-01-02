@@ -6,4 +6,9 @@ class CategoryController extends GetxController {
     categoryIndex = inx;
     update();
   }
+
+  void categoryImageDefaultValue() {
+    categoryIndex = null;
+    update();
+  }
 }

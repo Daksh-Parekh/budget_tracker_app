@@ -1,5 +1,7 @@
 import 'package:budget_tracker_app/controllers/category_controller.dart';
+import 'package:budget_tracker_app/utils/helper/db_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -89,10 +91,25 @@ class CategoryComponent extends StatelessWidget {
             Align(
               alignment: Alignment.bottomRight,
               child: FloatingActionButton.extended(
-                onPressed: () {
+                onPressed: () async {
                   if (formKey.currentState!.validate() &&
                       categoryController.categoryIndex != null) {
                     String cateName = categoryNameController.text;
+                    String assetPath =
+                        categoryImage[categoryController.categoryIndex!];
+                    ByteData byteData = await rootBundle.load(assetPath);
+                    Uint8List img = byteData.buffer.asUint8List();
+
+                    int? response =
+                        await DBHelper.dbHelper.insertCategories(cateName, img);
+                    if (response != null) {
+                      Get.snackbar('Insert', 'Record has inserted',
+                          backgroundColor: Colors.green,
+                          colorText: Colors.white);
+                    } else {
+                      Get.snackbar('Failed', 'Record has not inserted',
+                          backgroundColor: Colors.red, colorText: Colors.white);
+                    }
                   } else {
                     Get.snackbar(
                       'Error',
@@ -101,6 +118,9 @@ class CategoryComponent extends StatelessWidget {
                       colorText: Colors.white,
                     );
                   }
+                  categoryNameController.clear();
+                  categoryController.categoryImageDefaultValue();
+                  // categoryController.ass
                 },
                 label: Text("Add"),
                 icon: Icon(Icons.add),
