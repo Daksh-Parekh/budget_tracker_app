@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:budget_tracker_app/model/category_model.dart';
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -33,5 +34,32 @@ class DBHelper {
     String query = "INSERT INTO $tableName(cat_name,cat_image) VALUES(?,?);";
     // log('$query');
     return db?.rawInsert(query, [categoryName, categoryImage]);
+  }
+
+  //Fetch Records
+  Future<List<CategoryModel>> fetchCategory() async {
+    await initDB();
+    String query = "SELECT * FROM $tableName;";
+    List<Map<String, dynamic>> fetchedCategory =
+        await db?.rawQuery(query) ?? [];
+    return fetchedCategory
+        .map(
+          (e) => CategoryModel.fromMap(e),
+        )
+        .toList();
+  }
+
+  Future<List<CategoryModel>> liveSearchCategory(String search) async {
+    await initDB();
+
+    String query = "SELECT * FROM $tableName WHERE cat_name LIKE '%$search%'; ";
+    List<Map<String, dynamic>> searchedCategory =
+        await db?.rawQuery(query) ?? [];
+
+    return searchedCategory
+        .map(
+          (e) => CategoryModel.fromMap(e),
+        )
+        .toList();
   }
 }

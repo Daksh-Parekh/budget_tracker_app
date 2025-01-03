@@ -1,5 +1,4 @@
 import 'package:budget_tracker_app/controllers/category_controller.dart';
-import 'package:budget_tracker_app/utils/helper/db_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -99,17 +98,7 @@ class CategoryComponent extends StatelessWidget {
                         categoryImage[categoryController.categoryIndex!];
                     ByteData byteData = await rootBundle.load(assetPath);
                     Uint8List img = byteData.buffer.asUint8List();
-
-                    int? response =
-                        await DBHelper.dbHelper.insertCategories(cateName, img);
-                    if (response != null) {
-                      Get.snackbar('Insert', 'Record has inserted',
-                          backgroundColor: Colors.green,
-                          colorText: Colors.white);
-                    } else {
-                      Get.snackbar('Failed', 'Record has not inserted',
-                          backgroundColor: Colors.red, colorText: Colors.white);
-                    }
+                    categoryController.insertCategory(cateName, img);
                   } else {
                     Get.snackbar(
                       'Error',

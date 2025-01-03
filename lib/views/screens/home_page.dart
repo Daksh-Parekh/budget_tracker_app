@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:budget_tracker_app/component/all_category_component.dart';
 import 'package:budget_tracker_app/component/category_component.dart';
 import 'package:budget_tracker_app/controllers/category_controller.dart';
 import 'package:budget_tracker_app/controllers/navigation_controller.dart';
@@ -26,9 +27,7 @@ class HomePage extends StatelessWidget {
           Center(
             child: Text("All Spending"),
           ),
-          Center(
-            child: Text("All Category"),
-          ),
+          AllCategoryComponent(),
           CategoryComponent(),
         ],
       ),
