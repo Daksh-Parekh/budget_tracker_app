@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:budget_tracker_app/component/all_category_component.dart';
 import 'package:budget_tracker_app/component/category_component.dart';
+import 'package:budget_tracker_app/component/spending_component.dart';
 import 'package:budget_tracker_app/controllers/category_controller.dart';
 import 'package:budget_tracker_app/controllers/navigation_controller.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +26,9 @@ class HomePage extends StatelessWidget {
         },
         children: [
           Center(
-            child: Text("All Spending"),
+            child: Text("All Spendings"),
           ),
+          SpendingComponent(),
           AllCategoryComponent(),
           CategoryComponent(),
         ],
@@ -41,7 +43,9 @@ class HomePage extends StatelessWidget {
           },
           destinations: [
             NavigationDestination(
-                icon: Icon(Icons.currency_rupee), label: 'All Spending'),
+                icon: Icon(Icons.attach_money_rounded), label: 'All Spending'),
+            NavigationDestination(
+                icon: Icon(Icons.currency_rupee), label: 'Spending'),
             NavigationDestination(
                 icon: Icon(Icons.inbox_rounded), label: 'All Category'),
             NavigationDestination(

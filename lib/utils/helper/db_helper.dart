@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:budget_tracker_app/model/category_model.dart';
+import 'package:budget_tracker_app/model/spending_model.dart';
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -12,6 +13,15 @@ class DBHelper {
   String categoryName = 'cat_name';
   String categoryImage = 'cat_image';
   String categoryImgIndex = 'cat_img_index';
+
+  String spenTableName = 'spending';
+  String spendId = 'spend_id';
+  String spendDesc = 'spend_desc';
+  String spendAmount = 'spend_amount';
+  String spendMode = 'spend_mode';
+  String spendDate = 'spend_date';
+  String spendCategoryId = 'spen_category_id';
+
   //Creating a Database
   Future<void> initDB() async {
     String dbPath = await getDatabasesPath();
@@ -21,7 +31,7 @@ class DBHelper {
       path,
       version: 1,
       onCreate: (db, _) async {
-        //Creating a table
+        //Creating a category table
         String query = '''CREATE TABLE $tableName(
                   cat_id INTEGER PRIMARY KEY AUTOINCREMENT,
                   $categoryName TEXT NOT NULL,
@@ -29,6 +39,16 @@ class DBHelper {
                   $categoryImgIndex INTEGER
               );''';
         await db.execute(query);
+
+        String spendQuery = '''CREATE TABLE $spenTableName(
+          $spendId INTEGER PRIMARY KEY AUTOINCREMENT,
+          $spendDesc TEXT NOT NULL,
+          $spendAmount NUMERIC NOT NULL,
+          $spendMode TEXT NOT NULL,
+          $spendDate TEXT NOT NULL,
+          $spendCategoryId INTEGER NOT NULL
+        );''';
+        await db.execute(spendQuery);
       },
     );
   }
@@ -41,6 +61,22 @@ class DBHelper {
         "INSERT INTO $tableName($categoryName,$categoryImage,$categoryImgIndex) VALUES(?,?,?);";
     // log('$query');
     return db?.rawInsert(query, [catyName, catyImage, imageIndex]);
+  }
+
+  //Inserting spending records
+  Future<int?> insertSpendings({required SpendingModel model}) async {
+    await initDB();
+
+    String query =
+        'INSERT INTO $spenTableName($spendDesc,$spendAmount,$spendMode,$spendDate,$spendCategoryId) VALUES(?,?,?,?,?);';
+    List args = [
+      model.desc,
+      model.amount,
+      model.mode,
+      model.date,
+      model.categoryId,
+    ];
+    return await db?.rawInsert(query, args);
   }
 
   //Fetch Records
