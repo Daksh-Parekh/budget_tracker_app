@@ -7,9 +7,10 @@ import 'package:get/get.dart';
 class CategoryController extends GetxController {
   int? categoryIndex;
   Future<List<CategoryModel>>? allCategory;
-  CategoryController() {
-    fetchCategoryData();
-  }
+  // CategoryController() {
+  //   fetchCategoryData();
+  // }
+
   void changeCategoryImageInx(int inx) {
     categoryIndex = inx;
     update();
@@ -21,7 +22,8 @@ class CategoryController extends GetxController {
   }
 
   Future<void> insertCategory(String cateName, Uint8List img) async {
-    int? response = await DBHelper.dbHelper.insertCategories(cateName, img);
+    int? response =
+        await DBHelper.dbHelper.insertCategories(cateName, img, categoryIndex!);
     if (response != null) {
       Get.snackbar('Insert', 'Record has inserted',
           backgroundColor: Colors.green, colorText: Colors.white);
@@ -33,10 +35,37 @@ class CategoryController extends GetxController {
 
   void fetchCategoryData() {
     allCategory = DBHelper.dbHelper.fetchCategory();
+    // update();
   }
 
   void searchedCategoryData(String search) {
     allCategory = DBHelper.dbHelper.liveSearchCategory(search);
+    update();
+  }
+
+  Future<void> updateCategory(CategoryModel model) async {
+    int? res = await DBHelper.dbHelper.updateRecord(model);
+    if (res != null) {
+      fetchCategoryData();
+      Get.snackbar('UPDATE', 'UPDATION was done successfully',
+          colorText: Colors.white, backgroundColor: Colors.green);
+    } else {
+      Get.snackbar('FAILED', 'UPDATION was failed',
+          colorText: Colors.white, backgroundColor: Colors.red);
+    }
+    update();
+  }
+
+  Future<void> deleteRecord(int id) async {
+    int? response = await DBHelper.dbHelper.deleteCategory(id);
+    if (response != null) {
+      fetchCategoryData();
+      Get.snackbar('DELETE', 'Deletion successfull',
+          colorText: Colors.white, backgroundColor: Colors.green);
+    } else {
+      Get.snackbar('DELETION FAILED', 'Deletion failed',
+          colorText: Colors.white, backgroundColor: Colors.red);
+    }
     update();
   }
 }

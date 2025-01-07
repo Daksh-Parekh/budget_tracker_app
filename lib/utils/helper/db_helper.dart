@@ -9,7 +9,9 @@ class DBHelper {
   static DBHelper dbHelper = DBHelper._();
   Database? db;
   String tableName = 'category';
-
+  String categoryName = 'cat_name';
+  String categoryImage = 'cat_image';
+  String categoryImgIndex = 'cat_img_index';
   //Creating a Database
   Future<void> initDB() async {
     String dbPath = await getDatabasesPath();
@@ -20,8 +22,12 @@ class DBHelper {
       version: 1,
       onCreate: (db, _) async {
         //Creating a table
-        String query =
-            'CREATE TABLE $tableName(cat_id INTEGER PRIMARY KEY AUTOINCREMENT,cat_name TEXT NOT NULL,cat_image BLOB NOT NULL)';
+        String query = '''CREATE TABLE $tableName(
+                  cat_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  $categoryName TEXT NOT NULL,
+                  $categoryImage BLOB NOT NULL,
+                  $categoryImgIndex INTEGER
+              );''';
         await db.execute(query);
       },
     );
@@ -29,11 +35,12 @@ class DBHelper {
 
   //Inserting Records
   Future<int?> insertCategories(
-      String categoryName, Uint8List categoryImage) async {
+      String catyName, Uint8List catyImage, int imageIndex) async {
     await initDB();
-    String query = "INSERT INTO $tableName(cat_name,cat_image) VALUES(?,?);";
+    String query =
+        "INSERT INTO $tableName($categoryName,$categoryImage,$categoryImgIndex) VALUES(?,?,?);";
     // log('$query');
-    return db?.rawInsert(query, [categoryName, categoryImage]);
+    return db?.rawInsert(query, [catyName, catyImage, imageIndex]);
   }
 
   //Fetch Records
@@ -49,6 +56,7 @@ class DBHelper {
         .toList();
   }
 
+  // Live Search
   Future<List<CategoryModel>> liveSearchCategory(String search) async {
     await initDB();
 
@@ -61,5 +69,22 @@ class DBHelper {
           (e) => CategoryModel.fromMap(e),
         )
         .toList();
+  }
+
+  //Update Record
+  Future<int?> updateRecord(CategoryModel model) async {
+    await initDB();
+
+    String query =
+        "UPDATE $tableName SET $categoryName=?,$categoryImage=?,$categoryImgIndex=? WHERE cat_id=${model.id}";
+    return await db
+        ?.rawUpdate(query, [model.name, model.image, model.imageIndex]);
+  }
+
+  //Delete Record
+  Future<int?> deleteCategory(int id) async {
+    await initDB();
+    String query = 'DELETE FROM $tableName WHERE cat_id=$id;';
+    return await db?.rawDelete(query);
   }
 }

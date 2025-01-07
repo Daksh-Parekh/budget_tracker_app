@@ -21,7 +21,7 @@ class CategoryComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CategoryController categoryController = Get.put(CategoryController());
+    CategoryController categoriesController = Get.put(CategoryController());
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -69,12 +69,12 @@ class CategoryComponent extends StatelessWidget {
                 itemBuilder: (context, index) => GetBuilder<CategoryController>(
                   builder: (controller) => GestureDetector(
                     onTap: () {
-                      categoryController.changeCategoryImageInx(index);
+                      categoriesController.changeCategoryImageInx(index);
                     },
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                            color: categoryController.categoryIndex == index
+                            color: categoriesController.categoryIndex == index
                                 ? Colors.black
                                 : Colors.transparent),
                         borderRadius: BorderRadius.circular(10),
@@ -92,13 +92,16 @@ class CategoryComponent extends StatelessWidget {
               child: FloatingActionButton.extended(
                 onPressed: () async {
                   if (formKey.currentState!.validate() &&
-                      categoryController.categoryIndex != null) {
+                      categoriesController.categoryIndex != null) {
                     String cateName = categoryNameController.text;
                     String assetPath =
-                        categoryImage[categoryController.categoryIndex!];
+                        categoryImage[categoriesController.categoryIndex!];
                     ByteData byteData = await rootBundle.load(assetPath);
                     Uint8List img = byteData.buffer.asUint8List();
-                    categoryController.insertCategory(cateName, img);
+                    categoriesController.insertCategory(
+                      cateName,
+                      img,
+                    );
                   } else {
                     Get.snackbar(
                       'Error',
@@ -108,7 +111,7 @@ class CategoryComponent extends StatelessWidget {
                     );
                   }
                   categoryNameController.clear();
-                  categoryController.categoryImageDefaultValue();
+                  categoriesController.categoryImageDefaultValue();
                   // categoryController.ass
                 },
                 label: Text("Add"),
