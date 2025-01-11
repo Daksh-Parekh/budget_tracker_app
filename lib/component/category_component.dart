@@ -22,7 +22,7 @@ class CategoryComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CategoryController categoriesController = Get.put(CategoryController());
-
+    Size size = MediaQuery.sizeOf(context);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Form(
@@ -32,28 +32,31 @@ class CategoryComponent extends StatelessWidget {
           children: [
             Text(
               "Categories...",
-              style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 26.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
             SizedBox(height: 12),
-            TextFormField(
-              controller: categoryNameController,
-              validator: (value) =>
-                  value!.isEmpty ? "Category is required" : null,
-              decoration: InputDecoration(
-                labelText: "Category",
-                hintText: "Enter your category",
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey, width: 2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Colors.blueAccent.shade100, width: 2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.redAccent, width: 2),
-                  borderRadius: BorderRadius.circular(10),
+            Container(
+              height: size.height * 0.08,
+              padding:
+                  EdgeInsets.only(left: 30, right: 16, top: 10, bottom: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(40),
+              ),
+              child: TextFormField(
+                controller: categoryNameController,
+                style: TextStyle(fontSize: 18),
+                validator: (value) =>
+                    value!.isEmpty ? "Category is required" : null,
+                decoration: InputDecoration(
+                  constraints: BoxConstraints.expand(height: 50),
+                  border: InputBorder.none,
+                  hintText: "Enter your category",
+                  hintStyle: TextStyle(fontSize: 18),
+                  // contentPadding: EdgeInsets.only(top: 10),
                 ),
               ),
             ),
@@ -62,7 +65,7 @@ class CategoryComponent extends StatelessWidget {
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
-                  crossAxisSpacing: 5,
+                  crossAxisSpacing: 8,
                   mainAxisSpacing: 5,
                 ),
                 itemCount: categoryImage.length,
@@ -72,14 +75,17 @@ class CategoryComponent extends StatelessWidget {
                       categoriesController.changeCategoryImageInx(index);
                     },
                     child: Container(
+                      padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         border: Border.all(
                             color: categoriesController.categoryIndex == index
-                                ? Colors.black
-                                : Colors.transparent),
+                                ? Colors.white
+                                : Colors.transparent,
+                            width: 2),
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
                           image: AssetImage(categoryImage[index]),
+                          fit: BoxFit.scaleDown,
                         ),
                       ),
                     ),

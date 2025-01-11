@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
         getPages: GetPages.pages,
       ),
     );

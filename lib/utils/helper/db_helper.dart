@@ -92,6 +92,35 @@ class DBHelper {
         .toList();
   }
 
+  //Fetch spending table record
+  Future<List<SpendingModel>> fetchSpendingRecord() async {
+    await initDB();
+
+    String query = "SELECT * FROM $spenTableName;";
+    List<Map<String, dynamic>> records = await db?.rawQuery(query) ?? [];
+
+    return records
+        .map(
+          (e) => SpendingModel.fromMap(e),
+        )
+        .toList();
+  }
+
+  Future<CategoryModel> fetchSingleCategory(int id) async {
+    await initDB();
+
+    String query = "SELECT * FROM $tableName WHERE cat_id=$id";
+
+    List<Map<String, dynamic>> res = await db?.rawQuery(query) ?? [];
+
+    return CategoryModel(
+        id: res[0]['cat_id'],
+        name: res[0][categoryName],
+        image: res[0][categoryImage],
+        imageIndex: res[0][categoryImgIndex]);
+    //  res[0]['cat_id'];
+  }
+
   // Live Search
   Future<List<CategoryModel>> liveSearchCategory(String search) async {
     await initDB();
@@ -117,10 +146,27 @@ class DBHelper {
         ?.rawUpdate(query, [model.name, model.image, model.imageIndex]);
   }
 
+  //Update Spend Records
+  Future<int?> updateSpendRecord(SpendingModel model) async {
+    await initDB();
+
+    String query =
+        "UPDATE $spenTableName SET $spendDesc=?,$spendMode=?,$spendDate=?,$spendAmount=?,$spendCategoryId=? WHERE $spendId=${model.id}";
+    return await db?.rawUpdate(query,
+        [model.desc, model.mode, model.date, model.amount, model.categoryId]);
+  }
+
   //Delete Record
   Future<int?> deleteCategory(int id) async {
     await initDB();
     String query = 'DELETE FROM $tableName WHERE cat_id=$id;';
+    return await db?.rawDelete(query);
+  }
+
+  //Delete Spending Record
+  Future<int?> deleteSpendingCategory(int id) async {
+    await initDB();
+    String query = 'DELETE FROM $spenTableName WHERE $spendId=$id;';
     return await db?.rawDelete(query);
   }
 }

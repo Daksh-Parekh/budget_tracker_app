@@ -1,6 +1,7 @@
 import 'package:budget_tracker_app/component/category_component.dart';
 import 'package:budget_tracker_app/controllers/category_controller.dart';
 import 'package:budget_tracker_app/model/category_model.dart';
+import 'package:budget_tracker_app/utils/extensions/my_extension.dart';
 import 'package:budget_tracker_app/views/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,21 +13,30 @@ class AllCategoryComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
     CategoryController categoryController = Get.put(CategoryController());
     categoryController.fetchCategoryData();
     return Padding(
       padding: EdgeInsets.all(16),
       child: Column(
         children: [
-          TextField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter category to Search",
-              suffixIcon: Icon(Icons.search_rounded),
+          Container(
+            height: size.height * 0.088,
+            padding: EdgeInsets.only(left: 30, right: 16, top: 10, bottom: 10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(40),
             ),
-            onChanged: (value) {
-              categoryController.searchedCategoryData(value);
-            },
+            child: TextField(
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: "Enter category to Search",
+                suffixIcon: Icon(Icons.search_rounded),
+              ),
+              onChanged: (value) {
+                categoryController.searchedCategoryData(value);
+              },
+            ),
           ),
           SizedBox(
             height: 20.h,
@@ -52,10 +62,11 @@ class AllCategoryComponent extends StatelessWidget {
                               radius: 30,
                               foregroundImage: MemoryImage(
                                 allCategoryData[index].image!,
-                                scale: 0.5,
+                                // scale: 0.2,
                               ),
                             ),
-                            title: Text("${allCategoryData[index].name}"),
+                            title:
+                                Text("${allCategoryData[index].name?.tcase}"),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
