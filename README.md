@@ -79,20 +79,35 @@ A comprehensive budget tracker app built with Flutter, featuring functionalities
 
 ### Screenshots
 
-Add your screenshots here to showcase the app interface.
+1. **Splash Screen**:
+   
+<img src="https://github.com/user-attachments/assets/04f80a29-2941-4295-88d8-e2c4323a727b" width="300px">|
 
-1. **Home Screen**:
-   ![Home Screen](screenshots/home_screen.png)
+2. **Spending Management**:
 
-2. **Spending Details**:
-   ![Spending Screen](screenshots/spending_screen.png)
+<img src="https://github.com/user-attachments/assets/cf048c4f-2741-4670-93ae-c2639fd8c708" width="300px">|
+<img src="https://github.com/user-attachments/assets/862f6b64-9d4c-4890-b7ab-87a392449872" width="300px">|
+<img src="https://github.com/user-attachments/assets/a2491843-a3ee-44c2-916c-c35f498eb035" width="300px">|
+<img src="https://github.com/user-attachments/assets/9d9551e2-9e9c-4736-9a97-241cb3e0e129" width="300px">|
+     
+3. **Spending Details**:
 
-3. **Category Management**:
-   ![Category Screen](screenshots/category_screen.png)
+<img src="https://github.com/user-attachments/assets/e4814bbe-04ba-4427-8668-8ef4bfeb0372" width="300px">|
+
+4. **Category Management**:
+
+<img src="https://github.com/user-attachments/assets/e8fde2fb-22b4-45a8-ae99-c06a920bd27a" width="300px">
+<img src="https://github.com/user-attachments/assets/318a8d3f-6d61-4ab8-89e3-a27a919421e5" width="300px">
+<img src="https://github.com/user-attachments/assets/e1aa095c-4a17-449b-859c-e9cd75c30df4" width="300px">
+<img src="https://github.com/user-attachments/assets/d0f590a9-8e04-4f1e-be94-0e54d2bfbe90" width="300px">
+<img src="https://github.com/user-attachments/assets/84937050-ed03-45b3-89cd-7ccafbed0ab5" width="300px">
+
+5. **Category Details**:
+
+<img src="https://github.com/user-attachments/assets/c694da09-d194-42a9-b622-757414636d0a" width="300px">
 
 ---
 
 ### Video Demo
-Embed or link your video demo here to give an overview of the app functionality.
 
-[Watch Demo Video](https://example.com/demo)
+https://github.com/user-attachments/assets/6f42a0e2-d315-4299-9472-f4a8a10810dc
